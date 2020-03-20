@@ -1,0 +1,22 @@
+name: Bitly Shortener
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.7"
+
+      - name: Bitly shortener
+        id: shortener
+        uses: kok-xiong/bitly-shortener-action@master
+        with:
+          bitlyToken: ${{ secrets.BITLY_TOKEN }}
+          longURL: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
+
+      - name: outputs
+        run: echo "${{ steps.shortener.outputs.shortURL }}" / https://github.com/${{ github.repository }}/commit/${{ github.sha }}
